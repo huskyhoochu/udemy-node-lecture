@@ -7,6 +7,7 @@
 - [실제 코드](#실제_코드)
 - [실행해보기](#실행해보기)
 - [이벤트 상속](#이벤트_상속)
+- [ES6 클래스](#ES6_클래스)
 
 
 ### 이벤트_컨셉
@@ -307,4 +308,33 @@ greeter1.greet();
 // Someone greeted!
 
 ```
+
+이렇게 하면 Greetr 함수 객체의 prototype이 EventEmitter가 되어 이벤트 메서드 호출이 가능해집니다.
+
+Greetr 함수 객체를 완전히 eventEmitter 객체와 동일하게 만들려면 this까지 복사하면 되는데요.
+
+```javascript
+function Greetr() {
+  EventEmitter.call(this);
+  this.greeting = 'Hello World';
+}
+```
+
+저 코드를 삽입하면 EventEmitter 함수를 Greetr의 this 환경에서 실행하는 셈이 되어 prototype뿐만 아니라 객체 상태 복사까지 이루어집니다.
+
+
+### ES6_클래스
+
+ES6 문법이 발표되면서 자바스크립트에서도 클래스 문법을 사용할 수 있게 되었습니다. 그래서 위에서 함수 형태의 상속 패턴을 클래스형 패턴으로 구현할 수 있습니다.
+
+```javascript
+class Greetr extends EventEmitter {
+  constructor {
+    super();
+    this.greeting = 'Hello World';
+  }
+}
+```
+
+`extends` 키워드가 prototype 복사를 수행하고 constructor(생성자 함수)의 super 함수가 인스턴스 복사를 수행합니다.
 
