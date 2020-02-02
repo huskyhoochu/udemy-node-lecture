@@ -6,6 +6,7 @@
 - [간단 구현](#간단_구현)
 - [실제 코드](#실제_코드)
 - [실행해보기](#실행해보기)
+- [이벤트 상속](#이벤트_상속)
 
 
 ### 이벤트_컨셉
@@ -267,4 +268,43 @@ console.log(emitter.emit('greet'));
 ```
 
 너무 많은 리스너를 등록하면 경고 메시지를 출력하고, `_events` 객체에도 `warned`라는 플래그가 등록된 걸 볼 수 있습니다. greet 항목은 배열로 형태가 변경된 걸 볼 수 있습니다.
+
+### 이벤트_상속
+
+과거에는 `util.inherits` 함수로 상속을 수행했습니다. 자바스크립트에는 클래스 개념이 없으므로 부모 함수의 prototype 속성을 자식 함수의 prototype에 복사하는 식으로 상속을 구현했습니다.
+
+```javascript
+const EventEmitter = require('events');
+const util = require('util');
+
+// 인사를 출력하는 함수 선언
+function Greetr() {
+  this.greeting = 'Hello World';
+}
+
+// Greetr 함수는 EventEmitter를 상속받는다
+// 곧 EventEmitter의 prototype 속성을 Greetr의 prototype에 복사한다
+util.inherits(Greetr, EventEmitter);
+
+// Greetr 함수의 prototype에 event emit 일으키는 함수 할당
+Greetr.prototype.greet = function() {
+  console.log(this.greeting);
+  this.emit('greet');
+}
+
+// 함수 객체 선언
+const greeter1 = new Greetr();
+
+// greet 이벤트 등록
+greeter1.on('greet', function() {
+  console.log('Someone greeted!');
+})
+
+// greet 함수 호출
+greeter1.greet();
+
+// Hello World
+// Someone greeted!
+
+```
 
