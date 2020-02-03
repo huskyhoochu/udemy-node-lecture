@@ -5,3 +5,5 @@ Udemy의 [Learn and Understand NodeJS](https://www.udemy.com/course/understand-n
 ### 목차
 
 5. [Section 5: Events and the Event Emitter](./section5.md)
+
+6. [Section 6: Asynchronous Code](./section6.md)
